@@ -38,19 +38,20 @@ If you want to override the default environment variables
 
 ### With Docker
 
-1. Run: `make docker_build`
+1. On the first time, run: `make docker_build`
 1. If you don't have a `.env` file, run: `make docker_run`
 1. If you have a `.env` file, run: `make docker_run_env`
 
 ### Without Docker
 
 1. Make sure python 3.10 is installed
-1. Run: `make setup`
+1. On the first time, run: `make setup`
 1. Run: `make start`
 
 ## How to run the tests
 
-Run: `make test`
+1. On the first time, run: `make setup`
+1. Run: `make test`
 
 ## How to add a new datastore?
 
