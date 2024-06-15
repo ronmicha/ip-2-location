@@ -13,7 +13,7 @@ docker_build:
 	docker build -t service .
 
 docker_run:
-	docker run -p 8000:8000 --env-file .env --name ip_2_location service || docker run -p 8000:8000 --name ip_2_location service
+	[ -f .env ] && docker run -p 8000:8000 --env-file .env --name ip_2_location service || docker run -p 8000:8000 --name ip_2_location service
 
 docker_test:
 	docker exec ip_2_location sh -c 'PYTHONPATH=. pytest tests'
