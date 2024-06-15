@@ -39,8 +39,7 @@ If you want to override the default environment variables
 ### With Docker
 
 1. On the first time, run: `make docker_build`
-1. If you don't have a `.env` file, run: `make docker_run`
-1. If you have a `.env` file, run: `make docker_run_env`
+1. Run: `make docker_run`
 
 ### Without Docker
 
