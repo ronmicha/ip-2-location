@@ -50,6 +50,14 @@ If you want to override the default environment variables
 
 ## How to run the tests
 
+### With Docker
+
+1. Run the Docker container
+2. Run: `make docker_test`
+
+### Without Docker
+
+1. Make sure python 3.10 is installed
 1. On the first time, run: `make setup`
 1. Run: `make test`
 
