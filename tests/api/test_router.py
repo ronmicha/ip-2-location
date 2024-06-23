@@ -63,7 +63,7 @@ def test_rate_limit_dont_wait_for_clear(mock_default_env_vars, clear_rate_limit)
     # Don't wait for the rate limit count to reset
     sleep(float(response.headers["X-Retry-After"]) * 0.9)
 
-    # This request should go through
+    # This request should fail
     response = client.get(f"{FIND_COUNTRY_URL}?ip={VALID_IP}")
     assert response.status_code == 429, response.text
 
