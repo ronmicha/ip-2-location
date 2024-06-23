@@ -34,7 +34,7 @@ def test_invalid_ip():
     assert_error_response(response)
 
 
-def test_rate_limit(mock_default_env_vars, clear_rate_limit):
+def test_rate_limit_wait_for_clear(mock_default_env_vars, clear_rate_limit):
     for _ in range(DEFAULT_MAX_REQUESTS_PER_SECOND - 1):
         response = client.get(f"{FIND_COUNTRY_URL}?ip={VALID_IP}")
         assert response.status_code == 200, response.text
@@ -52,6 +52,19 @@ def test_rate_limit(mock_default_env_vars, clear_rate_limit):
     # This request should go through
     response = client.get(f"{FIND_COUNTRY_URL}?ip={VALID_IP}")
     assert response.status_code == 200, response.text
+
+
+def test_rate_limit_dont_wait_for_clear(mock_default_env_vars, clear_rate_limit):
+    # Hit the rate limit
+    for _ in range(DEFAULT_MAX_REQUESTS_PER_SECOND):
+        response = client.get(f"{FIND_COUNTRY_URL}?ip={VALID_IP}")
+
+    # Don't wait for the rate limit count to reset
+    sleep(float(response.headers["X-Retry-After"]) * 0.9)
+
+    # This request should go through
+    response = client.get(f"{FIND_COUNTRY_URL}?ip={VALID_IP}")
+    assert response.status_code == 429, response.text
 
 
 def test_happy_flow(mock_default_env_vars):
