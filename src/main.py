@@ -15,7 +15,6 @@ from src.common.consts import (
 )
 from src.common.context import init_dal_instance
 
-
 MAX_REQUESTS_PER_SECOND = int(
     os.getenv(MAX_REQUESTS_PER_SECOND_ENV_VAR, DEFAULT_MAX_REQUESTS_PER_SECOND)
 )
