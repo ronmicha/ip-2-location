@@ -63,5 +63,5 @@ If you want to override the default environment variables
 ## How to add a new datastore?
 
 1. In the `src/dal` directory, implement a new DAL class that inherits from `BaseDAL`
-1. Update the `DATASTORE_TYPE_TO_DAL` dictionary in `src/api/dependencies.py`, and map the new datastore type to the new DAL class
+1. Update the `DATASTORE_TYPE_TO_DAL` dictionary in `src/common/context.py`, and map the new datastore type to the new DAL class
 1. If you want to use the new datastore type, set it in the `DATASTORE_TYPE` environment variable, and run the service

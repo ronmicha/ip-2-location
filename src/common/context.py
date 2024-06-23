@@ -14,7 +14,7 @@ DATASTORE_TYPE_TO_DAL: dict[str, Type[BaseDAL]] = {
 }
 
 
-def set_dal_instance() -> None:
+def init_dal_instance() -> None:
     datastore_type = os.getenv(DATASTORE_TYPE_ENV_VAR, DEFAULT_DATASTORE_TYPE)
 
     dal_class = DATASTORE_TYPE_TO_DAL.get(datastore_type)

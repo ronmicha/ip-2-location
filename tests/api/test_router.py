@@ -1,3 +1,4 @@
+from time import sleep
 from fastapi.testclient import TestClient
 from httpx import Response
 
@@ -34,15 +35,23 @@ def test_invalid_ip():
 
 
 def test_rate_limit(mock_default_env_vars, clear_rate_limit):
-    for i in range(DEFAULT_MAX_REQUESTS_PER_SECOND):
+    for _ in range(DEFAULT_MAX_REQUESTS_PER_SECOND - 1):
         response = client.get(f"{FIND_COUNTRY_URL}?ip={VALID_IP}")
+        assert response.status_code == 200, response.text
 
-        if i == DEFAULT_MAX_REQUESTS_PER_SECOND - 1:
-            assert response.status_code == 429, response.text
-            assert "X-Retry-After" in response.headers
-            assert_error_response(response)
-        else:
-            assert response.status_code == 200, response.text
+    # This request should hit the rate limit
+    response = client.get(f"{FIND_COUNTRY_URL}?ip={VALID_IP}")
+
+    assert response.status_code == 429, response.text
+    assert_error_response(response)
+    assert "X-Retry-After" in response.headers
+
+    # Wait for the rate limit count to reset
+    sleep(float(response.headers["X-Retry-After"]))
+
+    # This request should go through
+    response = client.get(f"{FIND_COUNTRY_URL}?ip={VALID_IP}")
+    assert response.status_code == 200, response.text
 
 
 def test_happy_flow(mock_default_env_vars):
